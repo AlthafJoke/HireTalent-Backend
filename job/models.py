@@ -1,9 +1,12 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.gis.db import models as gismodels
-from django.contrib.gis.geos import Point
+# from django.contrib.gis.db import models as gismodels
+# from django.contrib.gis.geos import Point
 from datetime import *
 from django.contrib.auth.models import User
+import geocoder
+from decouple import config
+
 
 
 
@@ -49,16 +52,32 @@ class Job(models.Model):
     description = models.TextField(null=True)
     email = models.EmailField(null=True)
     address = models.CharField(max_length=200, null=True)
-    jobType = models.CharField(max_length=10, choices=JobType.choices, default=JobType.permenent)
+    jobType = models.CharField(max_length=10, choices=JobType.choices, default=JobType.Permenent)
     education = models.CharField(max_length=10, choices=Education.choices, default=Education.Bachelors)
     industry = models.CharField(max_length=30, choices=Industry.choices, default=Industry.Business)
     experience = models.CharField(max_length=20, choices=Experience.choices, default=Experience.NO_EXPIRIENCE)
     salary = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(10000000)])
     positions = models.IntegerField(default=1)
     company = models.CharField(max_length=100, null=True)
-    point = gismodels.PointField(default=Point(0.0, 0.0))
+    # point = gismodels.PointField(default=Point(0.0, 0.0))
     lastDate = models.DateTimeField(default=return_date_time)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    
+    def __str__(self):
+        return self.title
+    
+    # def save(self, *args, **kwargs):
+    #     g = geocoder.mapquest(self.address, key= config('GEOCODER_API'))
+        
+    #     print(g)
+        
+    #     lng = g.lng
+    #     lat = g.lat
+        
+    #     self.point = Point(lng, lat)
+        
+    #     super(Job,self).save(*args, **kwargs)
     
     
     
