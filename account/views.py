@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from .serializers import SignUpSerializer, UserSerializer
 from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -25,7 +26,7 @@ def register(request):
                 first_name = data['first_name'],
                 last_name = data['first_name'],
                 username = username,
-                email = data['email'],
+                email = email,
                 password = make_password(data['password'])
                
             )
@@ -38,4 +39,13 @@ def register(request):
                 status= status.HTTP_400_BAD_REQUEST)
     else:
         return Response(user.errors)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def currentUser(request):
+    user = UserSerializer(request.user)
+    
+    return Response(user.data)
+    
     
