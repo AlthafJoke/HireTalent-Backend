@@ -46,21 +46,21 @@ def return_date_time():
     
 
 class Job(models.Model):
-    title = models.CharField(max_length=200, null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    description = models.TextField(null=True)
-    email = models.EmailField(null=True)
-    address = models.CharField(max_length=200, null=True)
-    jobType = models.CharField(max_length=10, choices=JobType.choices, default=JobType.Permenent)
-    education = models.CharField(max_length=10, choices=Education.choices, default=Education.Bachelors)
-    industry = models.CharField(max_length=30, choices=Industry.choices, default=Industry.Business)
-    experience = models.CharField(max_length=20, choices=Experience.choices, default=Experience.NO_EXPIRIENCE)
-    salary = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(10000000)])
-    positions = models.IntegerField(default=1)
-    company = models.CharField(max_length=100, null=True)
+    title               = models.CharField(max_length=200, null=True)
+    user                = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    description         = models.TextField(null=True)
+    email               = models.EmailField(null=True)
+    address             = models.CharField(max_length=200, null=True)
+    jobType             = models.CharField(max_length=10, choices=JobType.choices, default=JobType.Permenent)
+    education           = models.CharField(max_length=10, choices=Education.choices, default=Education.Bachelors)
+    industry            = models.CharField(max_length=30, choices=Industry.choices, default=Industry.Business)
+    experience          = models.CharField(max_length=20, choices=Experience.choices, default=Experience.NO_EXPIRIENCE)
+    salary              = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(10000000)])
+    positions           = models.IntegerField(default=1)
+    company             = models.CharField(max_length=100, null=True)
  
-    lastDate = models.DateTimeField(default=return_date_time)
-    created_at = models.DateTimeField(auto_now_add=True)
+    lastDate            = models.DateTimeField(default=return_date_time)
+    created_at          = models.DateTimeField(auto_now_add=True)
     
     
     def __str__(self):
