@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Job, CandidatesApplied
-from .serializers import JobSerializer
+from .serializers import JobSerializer, CandidatesAppliedSerializer
 from django.db.models import Avg, Min, Max, Count
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
@@ -140,6 +140,18 @@ def applyJob(request, pk):
         'applied': True,
         'job_id' : jobApplied.id,
     },status=status.HTTP_200_OK)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getCurrentUserAppliedJobs(request):
+    
+    args = {'user_id': request.user.id}
+    
+    jobs = CandidatesApplied.objects.filter(**args)
+    
+    serializer = CandidatesAppliedSerializer(jobs, many=True)
+    
+    return Response(serializer.data)
         
     
     

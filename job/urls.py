@@ -9,6 +9,7 @@ urlpatterns = [
     path('job/<int:pk>/delete/', views.DeleteJob, name='delete_job'),
     path('stats/<str:topic>/', views.getTopicStats, name='get_topic_stats'),
     path('job/<str:pk>/apply/', views.applyJob, name='apply_to_job'),
+    path('me/jobs/applied/', views.getCurrentUserAppliedJobs, name="current_user_applied_jobs"),
    
     
 ]

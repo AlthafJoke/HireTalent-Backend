@@ -8,4 +8,5 @@ urlpatterns = [
     path('me/update/', views.updateUser, name='update_user'),
     path('upload/resume/', views.uploadResume, name='upload_resume'),
     
+    
 ]
