@@ -20,13 +20,14 @@ def register(request):
     
     if user.is_valid():
         if not User.objects.filter(username=data['email']).exists():
+            
             email = data['email']
             username = email.split("@")[0]
             user = User.objects.create(
                 first_name = data['first_name'],
                 last_name = data['first_name'],
-                username = username,
-                email = email,
+                username = data['email'],
+                email = data['email'],
                 password = make_password(data['password'])
                
             )
@@ -34,6 +35,7 @@ def register(request):
                 'success': 'user created successfully'},
                 status= status.HTTP_200_OK)
         else :
+            
             return Response({
                 'error': 'user already exist'},
                 status= status.HTTP_400_BAD_REQUEST)
@@ -73,6 +75,24 @@ def updateUser(request):
     return Response(serializer.data)
         
     
-
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def uploadResume(request):
+    
+    user = request.user
+    
+    resume = request.FILES['resume']
+    
+    if resume == '' :
+        return Response({'error': 'please upload your resume'})
+    
+    
+    
+    user.userprofile.resume = resume
+    user.userprofile.save()
+    
+    serializer = UserSerializer(user, many=False)
+    
+    return Response(serializer.data)
     
     
