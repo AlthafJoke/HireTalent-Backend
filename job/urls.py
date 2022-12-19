@@ -11,7 +11,8 @@ urlpatterns = [
     path('job/<str:pk>/apply/', views.applyJob, name='apply_to_job'),
     path('me/jobs/applied/', views.getCurrentUserAppliedJobs, name="current_user_applied_jobs"),
     path('job/<str:pk>/check/', views.isApplied, name='is_applied_to_job'),
-    path('me/jobs/', views.getCurrentUserJobs, name='get_current_user_jobs')
+    path('me/jobs/', views.getCurrentUserJobs, name='get_current_user_jobs'), #get all jobs posted by current user
+    path('job/<str:pk>/candidates/' , views.getCandidatesApplied, name='get_candidates_applied')
    
     
 ]
