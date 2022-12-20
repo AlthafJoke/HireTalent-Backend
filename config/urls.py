@@ -18,6 +18,8 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenVerifyView
 
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('job.urls')),
@@ -29,4 +31,9 @@ urlpatterns = [
     
     
 ]
+
+handler500 = 'utils.error_views.handler500'
+
+
+
 

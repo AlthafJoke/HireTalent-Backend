@@ -74,6 +74,10 @@ def updateUser(request):
     
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
+
+
+
+
         
     
 @api_view(['POST'])
@@ -100,5 +104,8 @@ def uploadResume(request):
     serializer = UserSerializer(user, many=False)
     
     return Response(serializer.data)
+
+
+
     
     
