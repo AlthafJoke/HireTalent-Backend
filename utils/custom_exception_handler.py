@@ -13,6 +13,11 @@ def custom_exception_handler(exc, context):
             "error": "invalid email or password please try again"
             
         }
+    if exception_class == 'NotAuthenticated':
+        response.data = {
+            "error": "Login first to continue"
+            
+        }
     
     return response
     
