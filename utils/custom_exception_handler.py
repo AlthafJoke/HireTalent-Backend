@@ -19,5 +19,12 @@ def custom_exception_handler(exc, context):
             
         }
     
+    if exception_class == 'Unauthorized':
+        response.data = {
+            "error": "email or password incorrect"
+            
+        }
+    
+    
     return response
     

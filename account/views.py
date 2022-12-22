@@ -22,8 +22,7 @@ def register(request):
     if user.is_valid():
         if not User.objects.filter(username=data['email']).exists():
 
-            email = data['email']
-            username = email.split("@")[0]
+            
             user = User.objects.create(
                 first_name=data['first_name'],
                 last_name=data['first_name'],

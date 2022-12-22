@@ -31,10 +31,10 @@ class Industry(models.TextChoices):
     Others = 'Others'
 
 class Experience(models.TextChoices):
-    NO_EXPIRIENCE = 'No Expirence'
+    NO_EXPIRIENCE = 'No Experience'
     ONE_YEAR = '1 Year'
-    TWO_YEAR = '2 years'
-    THREE_YEAR_PLUS = '3 Year above'
+    TWO_YEAR = '2 Years'
+    THREE_YEAR_PLUS = '3 Years above'
     
 
 def return_date_time():
