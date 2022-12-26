@@ -84,7 +84,7 @@ def updateUser(request):
 
 
 
-@api_view(['POST'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def uploadResume(request):
 
