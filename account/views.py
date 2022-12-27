@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,7 +12,11 @@ from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 
 
+
+
 # Create your views here.
+
+
 
 @api_view(['POST'])
 def register(request):
@@ -106,3 +111,40 @@ def uploadResume(request):
     serializer = UserSerializer(user, many=False)
 
     return Response(serializer.data)
+
+
+# class GoogleAuthAPIView(APIView):
+#     def post(self, request):
+#         token = request.data['token']
+        
+#         googleUser = id_token.verify_token(token, GoogleRequest())
+        
+#         if not googleUser:
+#             raise exceptions.AuthenticationFailed('unauthenticated')
+        
+#         user = User.objects.filter(email=googleUser['email']).first()
+        
+#         if not user:
+#             user = User.objects.create(
+#                 first_name = googleUser['given_name'],
+#                 last_name = googleUser['family_name'],
+#                 email = googleUser['email']
+#             )
+#             user.set_password(token)
+            
+#             user.save()
+        
+#         response = Response()
+            
+#         access_token = get_tokens_for_user(user)
+        
+#         print("token is :", access_token)
+        
+#         response.set_cookie(key='refresh_token', value='access_token', httponly=True)
+        
+#         response.data = {
+#             'token': access_token,
+#         }
+        
+#         return response
+        
