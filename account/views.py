@@ -5,12 +5,16 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from .serializers import SignUpSerializer, UserSerializer
-from django.contrib.auth.models import User
+from .models import CustomUser
 from rest_framework.permissions import IsAuthenticated
 from .validators import validate_file_extension
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
-
+from rest_framework import exceptions
+from rest_framework.views import APIView
+from google.oauth2 import id_token
+from google.auth.transport.requests import Request as GoogleRequest
+from .authentication import createAccessToken, createRefreshToken
 
 
 
@@ -23,19 +27,28 @@ def register(request):
     data = request.data
 
     user = SignUpSerializer(data=data)
+    confirm_password = data['confirm_password']
+    
 
     if user.is_valid():
-        if not User.objects.filter(username=data['email']).exists():
+        if not CustomUser.objects.filter(username=data['email']).exists():
+            email = data['email']
+            username = email.split('@')[0]
+            password = data['password']
+            
+            if password != confirm_password:
+                return Response({'error': 'password does not match!'}, status=status.HTTP_400_BAD_REQUEST)
 
             
-            user = User.objects.create(
+            user = CustomUser.objects.create(
                 first_name=data['first_name'],
-                last_name=data['first_name'],
-                username=data['email'],
-                email=data['email'],
-                password=make_password(data['password'])
-
+                last_name=data['last_name'],
+                email=data['email'].lower(),
+                username=username,
             )
+            user.set_password(data['password'])
+            user.save()
+            
             return Response({
                 'success': 'user created successfully'},
                 status=status.HTTP_200_OK)
@@ -111,6 +124,44 @@ def uploadResume(request):
     serializer = UserSerializer(user, many=False)
 
     return Response(serializer.data)
+
+
+class GoogleAuthAPIView(APIView):
+    def post(self, request):
+        token = request.data['token']
+        googleUser = id_token.verify_token(token, GoogleRequest)
+        
+        if not googleUser:
+            raise exceptions.AuthenticationFailed('unauthenticated')
+        
+        user = CustomUser.objects.filter(email = googleUser['email']).first()
+        
+        if not user:
+            email = googleUser['email']
+            username = email[0].split('@')[0]
+        
+            user = CustomUser.objects.create(
+                first_name = googleUser['given_name'],
+                last_name = googleUser['family_name'],
+                email = googleUser['email'],
+                username = username
+            )
+            
+            user.set_password(token)
+            user.save()
+            
+        access_token = createAccessToken(user.id)
+        refresh_token = createRefreshToken(user.id)
+        
+        response = Response()
+        
+        response.set_cookie(key='refresh_token', value=refresh_token, httponly=True)
+        
+        response.data = {
+            'token' : access_token
+        }
+        
+        return response
 
 
 # class GoogleAuthAPIView(APIView):

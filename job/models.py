@@ -2,7 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from datetime import *
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from account.models import CustomUser
 import geocoder
 from decouple import config
 
@@ -47,7 +48,7 @@ def return_date_time():
 
 class Job(models.Model):
     title               = models.CharField(max_length=200, null=True)
-    user                = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user                = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
     description         = models.TextField(null=True)
     email               = models.EmailField(null=True)
     address             = models.CharField(max_length=200, null=True)
@@ -69,7 +70,7 @@ class Job(models.Model):
 
 class CandidatesApplied(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True) 
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True) 
     resume = models.CharField(max_length=200)
     appliedAt = models.DateTimeField(auto_now_add=True)
     
