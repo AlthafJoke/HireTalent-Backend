@@ -18,6 +18,7 @@ from .authentication import createAccessToken, createRefreshToken
 
 
 
+
 # Create your views here.
 
 
@@ -128,8 +129,11 @@ def uploadResume(request):
 
 class GoogleAuthAPIView(APIView):
     def post(self, request):
+        
         token = request.data['token']
-        googleUser = id_token.verify_token(token, GoogleRequest)
+        
+        googleUser = id_token.verify_token(token, GoogleRequest())
+        
         
         if not googleUser:
             raise exceptions.AuthenticationFailed('unauthenticated')
@@ -142,7 +146,7 @@ class GoogleAuthAPIView(APIView):
         
             user = CustomUser.objects.create(
                 first_name = googleUser['given_name'],
-                last_name = googleUser['family_name'],
+                # last_name = googleUser['family_name'],
                 email = googleUser['email'],
                 username = username
             )

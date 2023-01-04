@@ -122,6 +122,7 @@ def applyJob(request, pk):
     user = request.user
     job  = get_object_or_404(Job, id=pk)
     
+    
     if user.userprofile.resume == '':
         return Response({'error': 'Please upload your resume'}, status=status.HTTP_400_BAD_REQUEST)
     

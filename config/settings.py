@@ -214,5 +214,8 @@ EMAIL_USE_TLS = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
+TIME_ZONE =  'Asia/Kolkata'
+
+
 
 
