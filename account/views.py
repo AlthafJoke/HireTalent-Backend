@@ -14,12 +14,20 @@ from rest_framework import exceptions
 from rest_framework.views import APIView
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request as GoogleRequest
-from .authentication import createAccessToken, createRefreshToken
+
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 
 
 # Create your views here.
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
 
 
 
@@ -154,18 +162,11 @@ class GoogleAuthAPIView(APIView):
             user.set_password(token)
             user.save()
             
-        access_token = createAccessToken(user.id)
-        refresh_token = createRefreshToken(user.id)
         
-        response = Response()
         
-        response.set_cookie(key='refresh_token', value=refresh_token, httponly=True)
+        token = get_tokens_for_user(user)
         
-        response.data = {
-            'token' : access_token
-        }
-        
-        return response
+        return Response(token)
 
 
 # class GoogleAuthAPIView(APIView):
