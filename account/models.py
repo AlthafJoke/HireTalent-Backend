@@ -5,6 +5,8 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
+
+
 # Create your models here.
 class CustomUserManager(BaseUserManager):
     
@@ -82,12 +84,35 @@ class CustomUser(AbstractBaseUser):
             return set()
     
 
-
-
-
+class employerProfile(models.Model):
+    user = models.OneToOneField(CustomUser, related_name='employerprofile', on_delete=models.CASCADE)
+    company_name = models.CharField(max_length=255, null=True, blank=True)
+    company_email = models.CharField(max_length=255, null=True, blank=True)
+    
+ 
 class UserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, related_name='userprofile', on_delete=models.CASCADE)
-    resume = models.FileField(null=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='userprofile') 
+    #one to one relationship means one user can have one profile 
+    #realted_name is used to access the userprofile from user model
+    resume = models.FileField(upload_to='resume', null=True, blank=True)
+    # profile_pic = models.ImageField(upload_to='Profile_pic', null=True, blank=True)
+    
+
+    #recruiter
+    company = models.CharField(max_length=100, null=True, blank=True)
+    designation = models.CharField(max_length=100, null=True, blank=True)
+    is_recruiter = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
+    uniqueCode = models.CharField(max_length=50, null=True, blank=True)
+
+
+    
+
+    def _str_(self):
+        return self.user.first_name + self.user.last_name
+    
+    
+    
     
 @receiver(post_save, sender=CustomUser)
 def save_profile(sender, instance , created, **kwargs):
@@ -96,6 +121,8 @@ def save_profile(sender, instance , created, **kwargs):
         profile = UserProfile(user=user)
         
         profile.save()
+        
+        
         
     
 

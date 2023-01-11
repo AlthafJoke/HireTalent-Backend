@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
+
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from .serializers import SignUpSerializer, UserSerializer
-from .models import CustomUser
+from .models import CustomUser, UserProfile
 from rest_framework.permissions import IsAuthenticated
 from .validators import validate_file_extension
 from django.core.exceptions import ValidationError
@@ -16,6 +18,9 @@ from google.oauth2 import id_token
 from google.auth.transport.requests import Request as GoogleRequest
 
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.conf import settings
+from django.core.mail import EmailMessage
+from django.utils.crypto import get_random_string
 
 
 
@@ -55,19 +60,60 @@ def register(request):
                 email=data['email'].lower(),
                 username=username,
             )
+            
             user.set_password(data['password'])
             user.save()
             
-            return Response({
-                'success': 'user created successfully'},
-                status=status.HTTP_200_OK)
-        else:
+            if len(data) > 6:
+                #
+                user.userprofile.company = data['company']
+                user.userprofile.designation = data['designation']
+                user.userprofile.is_recruiter = True
+                user.userprofile.uniqueCode = get_random_string(length=25) + get_random_string(length=15)
+                user.userprofile.save()
+            
+                
+                
+                #mail for empl
+           
+                mail_subject = "New Recruiter Registered"
+                message = 'pls click this to verify http://localhost:3000/verify/' + str(user.userprofile.uniqueCode)
+                to_email = "althafav7@gmail.com"
+                send_mail = EmailMessage(mail_subject, message, to=[to_email])
+                # send_mail.content_subtype = "html"
+                send_mail.send()
+            
+                return Response({'success': 'You Account has been created please wait for admin approvals','username': user.username,}, status=status.HTTP_201_CREATED)
+        
+        return Response({
+            'success': 'user created successfully'},
+            status=status.HTTP_200_OK)
+        
+@api_view(['POST'])
+def VerifyRec(request, id):
 
-            return Response({
-                'error': 'user already exist'},
-                status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response(user.errors)
+    print("dksfjkdsfsdfjs")
+    rec= get_object_or_404(CustomUser, userprofile__uniqueCode=id)
+    # rec = get_object_or_404
+    rec.userprofile.is_approved = True
+    rec.userprofile.save()  
+    print(rec.id)
+
+    #mail data to admin for approval
+    mail_subject = (f"{{0}} {{1}},Your Recruiter application has been approved").format(rec.first_name, rec.last_name)
+    message = render_to_string(
+                "account_verification_email.html",
+                
+            )
+    to_email = rec.email
+    send_mail = EmailMessage(mail_subject, message, to=[to_email])
+    send_mail.content_subtype = "html"
+    send_mail.send()
+
+    rec = UserSerializer(rec, many=False)
+ 
+    return Response(rec.data)
+
 
 
 @api_view(['GET'])

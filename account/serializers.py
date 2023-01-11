@@ -16,6 +16,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['admin'] = user.is_admin
         token['is_staff'] = user.is_staff
+      
         
         return token
 
@@ -43,7 +44,11 @@ class SignUpSerializer(serializers.ModelSerializer):
         
 
 class UserSerializer(serializers.ModelSerializer):
-    resume = serializers.CharField(source='userprofile.resume')
+    resume = serializers.CharField(source='userprofile.resume', read_only=True)
+    company = serializers.CharField(source='userprofile.company', read_only=True)
+    designation = serializers.CharField(source='userprofile.designation', read_only=True)
+    is_recruiter = serializers.CharField(source='userprofile.is_recruiter', read_only=True)
+    is_approved = serializers.CharField(source='userprofile.is_approved', read_only=True) 
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'email', 'username', 'resume')
+        fields = ('first_name', 'last_name', 'email', 'username', 'resume', 'is_recruiter', 'is_approved', 'designation', 'company' )
