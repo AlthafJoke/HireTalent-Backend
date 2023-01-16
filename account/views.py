@@ -92,12 +92,12 @@ def register(request):
 @api_view(['POST'])
 def VerifyRec(request, id):
 
-    print("dksfjkdsfsdfjs")
+    
     rec= get_object_or_404(CustomUser, userprofile__uniqueCode=id)
     # rec = get_object_or_404
     rec.userprofile.is_approved = True
     rec.userprofile.save()  
-    print(rec.id)
+    
 
     #mail data to admin for approval
     mail_subject = (f"{{0}} {{1}},Your Recruiter application has been approved").format(rec.first_name, rec.last_name)
@@ -215,38 +215,5 @@ class GoogleAuthAPIView(APIView):
         return Response(token)
 
 
-# class GoogleAuthAPIView(APIView):
-#     def post(self, request):
-#         token = request.data['token']
-        
-#         googleUser = id_token.verify_token(token, GoogleRequest())
-        
-#         if not googleUser:
-#             raise exceptions.AuthenticationFailed('unauthenticated')
-        
-#         user = User.objects.filter(email=googleUser['email']).first()
-        
-#         if not user:
-#             user = User.objects.create(
-#                 first_name = googleUser['given_name'],
-#                 last_name = googleUser['family_name'],
-#                 email = googleUser['email']
-#             )
-#             user.set_password(token)
-            
-#             user.save()
-        
-#         response = Response()
-            
-#         access_token = get_tokens_for_user(user)
-        
-#         print("token is :", access_token)
-        
-#         response.set_cookie(key='refresh_token', value='access_token', httponly=True)
-        
-#         response.data = {
-#             'token': access_token,
-#         }
-        
-#         return response
+
         
