@@ -251,21 +251,58 @@ class ForgotPasswordVerifyView(APIView):
 
         uidb64 = request.data['uid']
         token = request.data['token']
-        print(request.data)
+        # print(request.data)
 
         try:
             uid = urlsafe_base64_decode(uidb64).decode()
             user = CustomUser._default_manager.get(pk=uid)
         except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
             user = None
+            print("None is working")
+            
 
         if user is not None and default_token_generator.check_token(user, token):
+            print("user is working")
             
+            # return Response(uid, status=status.HTTP_200_OK)
             return Response(uid, status=status.HTTP_200_OK)
+            
         else:
+            print("else is working")
             return Response('Verification failed', status=status.HTTP_401_UNAUTHORIZED)
         
-
+        
+        
+class ResetPasswordAPIView(APIView):
+    def post(self, request):
+        
+        
+        uid = request.data['uid']
+        password = request.data['password']
+        confim_password = request.data['confirmPassword']
+        
+        
+        try:
+            if password == confim_password:
+                user = CustomUser.objects.get(pk=uid)
+                user.set_password(password)
+                user.save()
+                
+                return Response({"success": "Password changed successfully"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Password doesnot match"}, status=status.HTTP_400_BAD_REQUEST)
+                
+                
+        except:
+            return Response({'error':'Request failed'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        
+        
+    
+        
+        
+        
+        return Response("success")
         
         
         
