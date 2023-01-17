@@ -244,6 +244,30 @@ class ForgotPasswordAPIView(APIView):
             return Response({'error':'No account is registered with email id you entered!'}, status=status.HTTP_400_BAD_REQUEST)
         
         
+class ForgotPasswordVerifyView(APIView):
+
+    def post(self, request):
+        print("hello")
+
+        uidb64 = request.data['uid']
+        token = request.data['token']
+        print(request.data)
+
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = CustomUser._default_manager.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+            user = None
+
+        if user is not None and default_token_generator.check_token(user, token):
+            
+            return Response(uid, status=status.HTTP_200_OK)
+        else:
+            return Response('Verification failed', status=status.HTTP_401_UNAUTHORIZED)
+        
+
+        
+        
         
         
         

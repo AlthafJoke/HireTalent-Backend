@@ -10,6 +10,7 @@ urlpatterns = [
     path('google-auth/', views.GoogleAuthAPIView.as_view()),
     path('VerifyRec/<str:id>', views.VerifyRec, name="VerifyRec"),
     path('forgot-password/', views.ForgotPasswordAPIView.as_view(), name='forgot_password'),
+    path('forgot-password/verify/', views.ForgotPasswordVerifyView.as_view(), name='forgot_password-verify'),
 
     
     
