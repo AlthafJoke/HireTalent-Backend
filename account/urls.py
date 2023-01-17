@@ -9,6 +9,7 @@ urlpatterns = [
     path('upload/resume/', views.uploadResume, name='upload_resume'),
     path('google-auth/', views.GoogleAuthAPIView.as_view()),
     path('VerifyRec/<str:id>', views.VerifyRec, name="VerifyRec"),
+    path('forgot-password/', views.ForgotPasswordAPIView.as_view(), name='forgot_password'),
 
     
     

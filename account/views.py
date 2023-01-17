@@ -21,9 +21,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.utils.crypto import get_random_string
-
-
-
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
 
 # Create your views here.
 def get_tokens_for_user(user):
@@ -213,6 +215,43 @@ class GoogleAuthAPIView(APIView):
         token = get_tokens_for_user(user)
         
         return Response(token)
+    
+    
+    
+class ForgotPasswordAPIView(APIView):
+    def post(self, request):
+        email = request.data['email']
+        print(email, "this is email")
+        from_email = settings.EMAIL_HOST_USER
+        print(from_email)
+        
+        try:
+            user = CustomUser.objects.get(email=email)
+            current_site = get_current_site(request)
+            mail_subject = 'Password change request'
+            message = render_to_string('forgot-password-email.html',{
+                'user' : user,
+                'domain' : current_site,
+                'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
+                'token' : default_token_generator.make_token(user),
+            })
+            to_email = email
+            send_mail(mail_subject, message, from_email, [to_email], fail_silently=False)
+
+            return Response(email, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response({'error':'No account is registered with email id you entered!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
 
 
