@@ -15,9 +15,7 @@ from django.utils import timezone
 @api_view(['GET'])
 def getAllJobs(request):
     filterset = JobsFilter(request.GET, queryset=Job.objects.all().order_by('id'))
-    
     count = filterset.qs.count()
-    
     #pagination
     resPerPage = 3
     
@@ -32,6 +30,8 @@ def getAllJobs(request):
         'count': count,
         'resPerPage':resPerPage,
         'jobs':serializer.data})
+    
+    
 
 @api_view(['GET'])
 def getJob(request, pk):

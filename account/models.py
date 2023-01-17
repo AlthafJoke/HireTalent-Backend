@@ -111,6 +111,13 @@ class UserProfile(models.Model):
     def _str_(self):
         return self.user.first_name + self.user.last_name
     
+
+class reset(models.Model):
+    email = models.CharField(max_length=255)
+    token = models.CharField(max_length=255, unique=True)
+    
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # expired_at = models.DateTimeField()
     
     
     
@@ -121,6 +128,8 @@ def save_profile(sender, instance , created, **kwargs):
         profile = UserProfile(user=user)
         
         profile.save()
+        
+
         
         
         
