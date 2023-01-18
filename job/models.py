@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import *
 # from django.contrib.auth.models import User
 from account.models import CustomUser
-import geocoder
+
 from decouple import config
 
 
