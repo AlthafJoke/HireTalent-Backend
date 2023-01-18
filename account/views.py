@@ -80,7 +80,7 @@ def register(request):
            
                 mail_subject = "New Recruiter Registered"
                 message = 'pls click this to verify http://localhost:3000/verify/' + str(user.userprofile.uniqueCode)
-                to_email = "althafav7@gmail.com"
+                to_email = settings.EMAIL_HOST_USER
                 send_mail = EmailMessage(mail_subject, message, to=[to_email])
                 # send_mail.content_subtype = "html"
                 send_mail.send()
@@ -302,7 +302,7 @@ class ResetPasswordAPIView(APIView):
         
         
         
-        return Response("success")
+        
         
         
         
