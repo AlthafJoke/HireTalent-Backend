@@ -189,7 +189,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 STATIC_URL = '/static/'
 STATIC_ROOT =  BASE_DIR / 'staticfile'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static/"),
+    os.path.join(BASE_DIR, "staticfile/"),
 )
 
 # Default primary key field type
