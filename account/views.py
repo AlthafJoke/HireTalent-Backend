@@ -95,10 +95,7 @@ def register(request):
             
             else:
                 print("its normal user")
-                # employerprofile = employerProfile.objects.create(
-                #     user = user,
-                    
-                # )
+                
         
         return Response({
             'success': 'user created successfully'},

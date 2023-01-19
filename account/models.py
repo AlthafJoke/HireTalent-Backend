@@ -93,6 +93,9 @@ class employerProfile(models.Model):
     is_approved = models.BooleanField(default=False)
     uniqueCode = models.CharField(max_length=50, null=True, blank=True)
     
+    def __str__(self):
+        return self.user
+    
  
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='userprofile') 
@@ -101,7 +104,7 @@ class UserProfile(models.Model):
     resume = models.FileField(upload_to='resume', null=True, blank=True)
     # profile_pic = models.ImageField(upload_to='Profile_pic', null=True, blank=True)
     
-    def _str_(self):
+    def __str__(self):
         return self.user.first_name + self.user.last_name
     
     
