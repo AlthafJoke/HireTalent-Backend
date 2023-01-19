@@ -188,10 +188,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 STATIC_URL = '/staticfile/'
 STATIC_ROOT =  BASE_DIR / 'staticfile'
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, "static/"),
-
-# )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "staticfile/"),
+)
 
 # STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.abspath(os.path.join(os.path.dirname(file), 'static')) 
