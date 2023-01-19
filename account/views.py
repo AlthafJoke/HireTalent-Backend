@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from .serializers import SignUpSerializer, UserSerializer
-from .models import CustomUser, UserProfile
+from .models import CustomUser, UserProfile, employerProfile
 from rest_framework.permissions import IsAuthenticated
 from .validators import validate_file_extension
 from django.core.exceptions import ValidationError
@@ -67,25 +67,38 @@ def register(request):
             user.save()
             
             if len(data) > 6:
-                #
-                user.userprofile.company = data['company']
-                user.userprofile.designation = data['designation']
-                user.userprofile.is_recruiter = True
-                user.userprofile.uniqueCode = get_random_string(length=25) + get_random_string(length=15)
-                user.userprofile.save()
+                print("its employer")
+                employerprofile = employerProfile()
+                user.is_recruiter = True
+                user.save()
+                
+                employerprofile.user = user
+                employerprofile.company = data['company']
+                employerprofile.designation = data['designation']
+                
+                # employerprofile.is_recruiter = True
+                employerprofile.uniqueCode = get_random_string(length=25) + get_random_string(length=15)
+                employerprofile.save()
             
                 
                 
                 #mail for empl
            
-                mail_subject = "New Recruiter Registered"
-                message = 'pls click this to verify http://localhost:3000/verify/' + str(user.userprofile.uniqueCode)
-                to_email = 'althafav7@gmail.com'
-                send_mail = EmailMessage(mail_subject, message, to=[to_email])
-                # send_mail.content_subtype = "html"
-                send_mail.send()
+                # mail_subject = "New Recruiter Registered"
+                # message = 'pls click this to verify http://localhost:3000/verify/' + str(user.userprofile.uniqueCode)
+                # to_email = 'althafav7@gmail.com'
+                # send_mail = EmailMessage(mail_subject, message, to=[to_email])
+                # # send_mail.content_subtype = "html"
+                # send_mail.send()
             
                 return Response({'success': 'You Account has been created please wait for admin approvals','username': user.username,}, status=status.HTTP_201_CREATED)
+            
+            else:
+                print("its normal user")
+                # employerprofile = employerProfile.objects.create(
+                #     user = user,
+                    
+                # )
         
         return Response({
             'success': 'user created successfully'},
