@@ -55,6 +55,7 @@ class CustomUser(AbstractBaseUser):
     
     
     # required fields
+    is_recruiter = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -86,8 +87,11 @@ class CustomUser(AbstractBaseUser):
 
 class employerProfile(models.Model):
     user = models.OneToOneField(CustomUser, related_name='employerprofile', on_delete=models.CASCADE)
-    company_name = models.CharField(max_length=255, null=True, blank=True)
-    company_email = models.CharField(max_length=255, null=True, blank=True)
+    company = models.CharField(max_length=100, null=True, blank=True)
+    designation = models.CharField(max_length=100, null=True, blank=True)
+    
+    is_approved = models.BooleanField(default=False)
+    uniqueCode = models.CharField(max_length=50, null=True, blank=True)
     
  
 class UserProfile(models.Model):
@@ -97,17 +101,6 @@ class UserProfile(models.Model):
     resume = models.FileField(upload_to='resume', null=True, blank=True)
     # profile_pic = models.ImageField(upload_to='Profile_pic', null=True, blank=True)
     
-
-    #recruiter
-    company = models.CharField(max_length=100, null=True, blank=True)
-    designation = models.CharField(max_length=100, null=True, blank=True)
-    is_recruiter = models.BooleanField(default=False)
-    is_approved = models.BooleanField(default=False)
-    uniqueCode = models.CharField(max_length=50, null=True, blank=True)
-
-
-    
-
     def _str_(self):
         return self.user.first_name + self.user.last_name
     
