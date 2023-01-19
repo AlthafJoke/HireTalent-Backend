@@ -39,7 +39,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -189,7 +189,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 STATIC_URL = '/static/'
 STATIC_ROOT =  BASE_DIR / 'staticfile'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "staticfile/"),
+    os.path.join(BASE_DIR, "static/"),
 )
 
 # Default primary key field type
