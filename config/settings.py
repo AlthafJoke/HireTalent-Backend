@@ -186,11 +186,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 STATIC_ROOT =  BASE_DIR / 'staticfile'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static/"),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, "static/"),
+
+# )
+
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.abspath(os.path.join(os.path.dirname(file), 'static')) 
+# STATICFILES_DIRS = (os.path.join('static'), )
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
