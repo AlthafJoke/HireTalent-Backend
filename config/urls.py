@@ -35,7 +35,7 @@ urlpatterns = [
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-handler500 = 'utils.error_views.handler500'
+# handler500 = 'utils.error_views.handler500'
 
 
 
