@@ -90,11 +90,12 @@ class employerProfile(models.Model):
     company = models.CharField(max_length=100, null=True, blank=True)
     designation = models.CharField(max_length=100, null=True, blank=True)
     
+    is_recruiter = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
     uniqueCode = models.CharField(max_length=50, null=True, blank=True)
     
-    def __str__(self):
-        return self.user
+    # def __str__(self):
+    #     return self.user
     
  
 class UserProfile(models.Model):

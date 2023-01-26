@@ -24,10 +24,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
-        required = True,
-        validators = [UniqueValidator(queryset=CustomUser.objects.all())]
-    )
+    # email = serializers.EmailField(
+    #     required = True,
+    #     validators = [UniqueValidator(queryset=CustomUser.objects.all())]
+    # )
     # password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     
     class Meta:
@@ -44,11 +44,11 @@ class SignUpSerializer(serializers.ModelSerializer):
         
 
 class UserSerializer(serializers.ModelSerializer):
-    # resume = serializers.CharField(source='userprofile.resume', read_only=True)
-    # company = serializers.CharField(source='userprofile.company', read_only=True)
-    # designation = serializers.CharField(source='userprofile.designation', read_only=True)
-    # is_recruiter = serializers.CharField(source='userprofile.is_recruiter', read_only=True)
-    # is_approved = serializers.CharField(source='userprofile.is_approved', read_only=True) 
+    resume = serializers.CharField(source='userprofile.resume', read_only=True)
+    company = serializers.CharField(source='employerprofile.company', read_only=True)
+    designation = serializers.CharField(source='employerprofile.designation', read_only=True)
+    is_recruiter = serializers.CharField(source='employerprofile.is_recruiter', read_only=True)
+    is_approved = serializers.CharField(source='employerprofile.is_approved', read_only=True) 
     class Meta:
         model = CustomUser
         fields = "__all__"

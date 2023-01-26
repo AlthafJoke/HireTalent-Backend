@@ -45,9 +45,15 @@ def register(request):
     user = SignUpSerializer(data=data)
     confirm_password = data['confirm_password']
     
+    
+    
+    if CustomUser.objects.filter(email=data['email']):
+            return Response({'error': 'email id already exist'}, status=status.HTTP_400_BAD_REQUEST)
+    
 
     if user.is_valid():
-        if not CustomUser.objects.filter(username=data['email']).exists():
+        
+        if not CustomUser.objects.filter(email=data['email']).exists():
             email = data['email']
             username = email.split('@')[0]
             password = data['password']
@@ -66,6 +72,8 @@ def register(request):
             user.set_password(data['password'])
             user.save()
             
+            
+            
             if len(data) > 6:
                 print("its employer")
                 employerprofile = employerProfile()
@@ -75,6 +83,7 @@ def register(request):
                 employerprofile.user = user
                 employerprofile.company = data['company']
                 employerprofile.designation = data['designation']
+                employerprofile.is_recruiter = True
                 
                 # employerprofile.is_recruiter = True
                 employerprofile.uniqueCode = get_random_string(length=25) + get_random_string(length=15)
@@ -105,10 +114,10 @@ def register(request):
 def VerifyRec(request, id):
 
     
-    rec= get_object_or_404(CustomUser, userprofile__uniqueCode=id)
+    rec= get_object_or_404(CustomUser, employerprofile__uniqueCode=id)
     # rec = get_object_or_404
-    rec.userprofile.is_approved = True
-    rec.userprofile.save()  
+    rec.employerprofile.is_approved = True
+    rec.employerprofile.save()  
     
 
     #mail data to admin for approval
