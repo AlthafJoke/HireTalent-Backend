@@ -18,6 +18,9 @@ def send_email(sender, instance , **kwargs):
     # send_mail.content_subtype = "html"
     send_mail.send()
     
+
+
+    
    
 
 

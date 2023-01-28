@@ -27,6 +27,7 @@ from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 
+
 # Create your views here.
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -104,6 +105,9 @@ def register(request):
             
             else:
                 print("its normal user")
+                userprofile = UserProfile()
+                userprofile.user = user
+                userprofile.save()
                 
         
         return Response({
