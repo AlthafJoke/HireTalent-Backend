@@ -233,6 +233,12 @@ class GoogleAuthAPIView(APIView):
             user.set_password(token)
             user.save()
             
+            userprofile = UserProfile.objects.create(
+                user = user
+            )
+            
+            userprofile.save()
+            
         
         
         token = get_tokens_for_user(user)
