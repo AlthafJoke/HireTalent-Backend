@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'storages',
     'django_filters',
     'job.apps.JobConfig',
-    'account.apps.AccountConfig'
+    'account.apps.AccountConfig',
     'payment',
     
     

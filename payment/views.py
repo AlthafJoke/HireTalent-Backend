@@ -3,6 +3,8 @@ from decouple import config
 from rest_framework.decorators import api_view
 import razorpay
 from rest_framework.response import Response
+from account.models import CustomUser
+from .models import Payment
 
 # Create your views here.
 
@@ -26,6 +28,9 @@ def createOrder(request):
 @api_view(['POST'])
 def verifySignature(request):
     res = request.data
+    
+    
+    # print(user.email)
 
     params_dict = {
         'razorpay_payment_id' : res['razorpay_paymentId'],
@@ -37,5 +42,25 @@ def verifySignature(request):
     res = client.utility.verify_payment_signature(params_dict)
 
     if res == True:
+        
+        
+        ########activating premium in user model ###############
+        email = request.data['currentEmail']
+        user = CustomUser.objects.filter(email=email).first()
+        user.is_premium = True
+        user.save()
+        print("user purchase premium success")
+        ####################################################
+        payment = Payment.objects.create(
+            user=user,
+            payment_id = request.data['razorpay_paymentId'],
+            payment_method = 'razor pay',
+            amount = request.data['amount'],
+            status = 'Payment success',
+            
+        )
+        payment.save()
+        
+        
         return Response({'status':'Payment Successful'})
     return Response({'status':'Payment Failed'})
