@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenVerifyView
+from rest_framework_simplejwt.views import  TokenVerifyView
 from django.conf.urls.static import static
 from django.conf import settings
+from account.views import MyTokenObtainPairView
 
 
 
@@ -28,7 +29,7 @@ urlpatterns = [
     path('api/', include('account.urls')),
     
     
-    path('api/token/', TokenObtainPairView.as_view()),
+    path('api/token/', MyTokenObtainPairView.as_view()),
     path('api/token/verify/', TokenVerifyView.as_view())
     
     

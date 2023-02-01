@@ -16,6 +16,9 @@ from datetime import timedelta
 import os
 
 
+TIME_ZONE =  'Asia/Kolkata'
+
+
 
 
 
@@ -185,7 +188,7 @@ CORS_ALLOWED_ORIGINS = [
   
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://hire-talent-frontend-rkeo.vercel.app/"
+    # "https://hire-talent-frontend-rkeo.vercel.app/"
 ]
 
 
@@ -229,7 +232,7 @@ EMAIL_USE_TLS = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
-TIME_ZONE =  'Asia/Kolkata'
+
 
 
 

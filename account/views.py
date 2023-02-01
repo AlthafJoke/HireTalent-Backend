@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
-from .serializers import SignUpSerializer, UserSerializer
+from .serializers import SignUpSerializer, UserSerializer, MyTokenObtainPairSerializer
 from .models import CustomUser, UserProfile, employerProfile
 from rest_framework.permissions import IsAuthenticated
 from .validators import validate_file_extension
@@ -26,6 +26,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 # Create your views here.
@@ -36,6 +37,10 @@ def get_tokens_for_user(user):
         'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
+    
+    
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 
@@ -90,16 +95,6 @@ def register(request):
                 employerprofile.uniqueCode = get_random_string(length=25) + get_random_string(length=15)
                 employerprofile.save()
             
-                
-                
-                #mail for empl
-           
-                # mail_subject = "New Recruiter Registered"
-                # message = 'pls click this to verify http://localhost:3000/verify/' + str(user.userprofile.uniqueCode)
-                # to_email = 'althafav7@gmail.com'
-                # send_mail = EmailMessage(mail_subject, message, to=[to_email])
-                # # send_mail.content_subtype = "html"
-                # send_mail.send()
             
                 return Response({'success': 'You Account has been created please wait for admin approvals','username': user.username,}, status=status.HTTP_201_CREATED)
             
@@ -208,10 +203,20 @@ def uploadResume(request):
 
 class GoogleAuthAPIView(APIView):
     def post(self, request):
+        print("hello google")
         
         token = request.data['token']
         
+        print("this is google token", token)
+        
+        
+            
+        
         googleUser = id_token.verify_token(token, GoogleRequest())
+        
+        
+        
+        # print(googleUser, "djsfsjd")
         
         
         if not googleUser:
@@ -238,12 +243,13 @@ class GoogleAuthAPIView(APIView):
             )
             
             userprofile.save()
-            
-        
-        
         token = get_tokens_for_user(user)
         
+            
+    
         return Response(token)
+        
+        
     
     
     

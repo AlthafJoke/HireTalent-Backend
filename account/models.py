@@ -62,6 +62,7 @@ class CustomUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    is_premium = models.BooleanField(default=False)
     
     objects = CustomUserManager()
     
