@@ -122,6 +122,8 @@ def applyJob(request, pk):
     user = request.user
     job  = get_object_or_404(Job, id=pk)
     
+    print(user.is_premium, "check premium")
+    isPremium = user.is_premium
     
     if user.userprofile.resume == '':
         return Response({'error': 'Please upload your resume'}, status=status.HTTP_400_BAD_REQUEST)
@@ -133,6 +135,11 @@ def applyJob(request, pk):
     
     if alreadyApplied:
         return Response({'error': 'you have already applied to this job'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    
+    if not isPremium:
+        
+        return Response({'error': 'purchase premium to apply to job'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
     
     jobApplied = CandidatesApplied.objects.create(
         job=job,

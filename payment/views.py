@@ -5,6 +5,7 @@ import razorpay
 from rest_framework.response import Response
 from account.models import CustomUser
 from .models import Payment
+from rest_framework import status
 
 # Create your views here.
 
@@ -62,5 +63,5 @@ def verifySignature(request):
         payment.save()
         
         
-        return Response({'status':'Payment Successful'})
+        return Response({'status':'Payment Successful'}, status=status.HTTP_200_OK)
     return Response({'status':'Payment Failed'})
