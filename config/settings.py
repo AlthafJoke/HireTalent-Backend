@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django_filters',
     'job.apps.JobConfig',
     'account.apps.AccountConfig'
+    'payment',
     
     
 ]

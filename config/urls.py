@@ -27,6 +27,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('job.urls')),
     path('api/', include('account.urls')),
+    path('api/', include('payment.urls')),
+    
     
     
     path('api/token/', MyTokenObtainPairView.as_view()),

@@ -12,8 +12,7 @@ urlpatterns = [
     path('forgot-password/', views.ForgotPasswordAPIView.as_view(), name='forgot_password'),
     path('forgot-password/verify/', views.ForgotPasswordVerifyView.as_view(), name='forgot_password-verify'),
     path('reset-password/', views.ResetPasswordAPIView.as_view(), name='reset_password'),
-    path('createOrder/', views.createOrder),
-    path('verifySignature/', views.verifySignature)
+    
    
 
     
