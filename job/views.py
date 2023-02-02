@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Job, CandidatesApplied
+from account.models import CustomUser
 from .serializers import JobSerializer, CandidatesAppliedSerializer
 from django.db.models import Avg, Min, Max, Count
 from django.shortcuts import get_object_or_404
@@ -48,6 +49,12 @@ def getJob(request, pk):
 def addNewJob(request):
     request.data['user'] = request.user
     data = request.data
+    email = request.data['user']
+    user  = CustomUser.objects.filter(email=email).last()
+    if not user.is_premium:
+        return Response({'error': 'purchase premium for Posting job'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+    
     job = Job.objects.create(**data)
     
     serializer = JobSerializer(job , many=False)
