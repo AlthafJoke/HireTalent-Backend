@@ -3,19 +3,35 @@ from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
 from django.core.mail import EmailMessage
 from .models import *
+from django.template.loader import get_template
+from django.template import Context
+from django.template.loader import render_to_string
 
 @receiver(post_save, sender=employerProfile)
 def send_email(sender, instance , **kwargs):
     user = instance
-    print(user.uniqueCode)
+    # print(user.uniqueCode)
     print("signal for employer")
+    print(user.user.username, "this is username")
+    print(user.company)
+    
     #mail for empl
            
     mail_subject = "New Recruiter Registered"
-    message = ' pls click this to verify http://localhost:3000/verify/' + str(user.uniqueCode)
+    message = render_to_string('account_verification_email.html', {
+        'username': user.user.username,
+        'email':user.user,
+        'company': user.company,
+        'url': 'http://localhost:3000/verify/' + str(user.uniqueCode),
+        
+    })
+    # message = get_template("account_verification_email.html").render(Context({
+    #     'user': user
+    # }))
+    # message = ' pls click this to verify http://localhost:3000/verify/' + str(user.uniqueCode)
     to_email = 'althafav7@gmail.com'
     send_mail = EmailMessage(mail_subject, message, to=[to_email])
-    # send_mail.content_subtype = "html"
+    send_mail.content_subtype = "html"
     send_mail.send()
     
 
