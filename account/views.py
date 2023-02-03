@@ -27,9 +27,7 @@ from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework_simplejwt.views import TokenObtainPairView
-import stripe
-from decouple import config
-import razorpay
+
 
 
 # Create your views here.
