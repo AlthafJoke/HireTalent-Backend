@@ -184,14 +184,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-# CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
   
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://hire-talent-frontend.vercel.app/"
-    # "https://hire-talent-frontend-rkeo.vercel.app/"
-]
+#     "http://localhost:3000",
+#     "http://127.0.0.1:3000",
+#     "https://hire-talent-frontend.vercel.app/"
+#     # "https://hire-talent-frontend-rkeo.vercel.app/"
+# ]
 
 
 # Static files (CSS, JavaScript, Images)
