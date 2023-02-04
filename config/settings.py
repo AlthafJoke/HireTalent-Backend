@@ -189,7 +189,7 @@ CORS_ALLOW_ALL_ORIGINS = True
   
 #     "http://localhost:3000",
 #     "http://127.0.0.1:3000",
-#     "https://hire-talent-frontend.vercel.app/"
+#     # "https://hire-talent-frontend.vercel.app/"
 #     # "https://hire-talent-frontend-rkeo.vercel.app/"
 # ]
 
