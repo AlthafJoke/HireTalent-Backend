@@ -72,6 +72,9 @@ class CandidatesApplied(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True) 
     resume = models.CharField(max_length=200)
+    
+    is_Approved = models.BooleanField(default=False)
+    is_Rejected = models.BooleanField(default=False)
     appliedAt = models.DateTimeField(auto_now_add=True)
     
 

@@ -129,7 +129,7 @@ def applyJob(request, pk):
     user = request.user
     job  = get_object_or_404(Job, id=pk)
     
-    print(user.is_premium, "check premium")
+    
     isPremium = user.is_premium
     
     if user.userprofile.resume == '':
@@ -214,6 +214,43 @@ def getCandidatesApplied(request, pk):
     serialzer = CandidatesAppliedSerializer(candidates, many=True)
     
     return Response(serialzer.data)
+
+# @permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def approveResume(request, pk):
+    if not CandidatesApplied.objects.filter(id=pk).exists():
+        return Response({"error": "wrong id"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    candidate = get_object_or_404(CandidatesApplied, id=pk)
+    # candidate = CandidatesApplied.objects.filter(id=pk).exists()
+    
+    
+    candidate.is_Approved = True
+    
+    candidate.save()
+    
+    return Response({"success": "resume is approved"}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def rejectResume(request, pk):
+    # candidate = get_object_or_404(CandidatesApplied, id=pk)
+    if not CandidatesApplied.objects.filter(id=pk).exists():
+        return Response({"error": "wrong id"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    candidate = get_object_or_404(CandidatesApplied, id=pk)
+
+    
+    if candidate.is_Approved:
+        candidate.is_Approved = False
+        
+    
+        
+    candidate.is_Rejected = True
+    
+    
+    return Response({"success": "Resume is rejected"})
+    
+    
     
     
         
