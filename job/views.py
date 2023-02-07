@@ -180,6 +180,8 @@ def isApplied(request, pk):
     job = get_object_or_404(Job, id=pk)
     
     applied = job.candidatesapplied_set.filter(user=user).exists()
+    print(applied)
+    
     
     return Response(applied)
 
