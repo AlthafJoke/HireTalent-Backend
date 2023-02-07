@@ -14,9 +14,7 @@ urlpatterns = [
     path('me/jobs/', views.getCurrentUserJobs, name='get_current_user_jobs'), #get all jobs posted by current user
     path('job/<str:pk>/candidates/' , views.getCandidatesApplied, name='get_candidates_applied'),
     path('candidate/<str:pk>/approve/', views.approveResume, name='approveResume'),
-    path('candidate/<str:pk/reject/', views.rejectResume, name='rejectResume'),
-    
-   
+    path('candidate/<int:pk>/reject/', views.rejectResume, name='rejectResume'),
     
 ]
 

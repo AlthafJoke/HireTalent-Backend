@@ -8,12 +8,22 @@ from .models import *
 def send_email(sender, instance , **kwargs):
     if instance.is_Approved:
         print(" signal msg: resume approved ")
-        # mail_subject = "New job application "
-        # message = "your resume is approved please wait for the call"
-        # to_email = instance.user
-        # send_mail = EmailMessage(mail_subject, message, to=[to_email])
-        # # send_mail.content_subtype = "html"
-        # send_mail.send()
+        mail_subject = "Resume Approved"
+        message = "your resume is approved please wait for the call"
+        to_email = instance.user
+        send_mail = EmailMessage(mail_subject, message, to=[to_email])
+        # send_mail.content_subtype = "html"
+        send_mail.send()
+        
+    if instance.is_Rejected:
+        print(" signal msg: resume rejected ")
+        mail_subject = "Resume rejected"
+        message = "your resume is rejected , sorry for the inconvenience"
+        to_email = instance.user
+        send_mail = EmailMessage(mail_subject, message, to=[to_email])
+        # send_mail.content_subtype = "html"
+        send_mail.send()
+        
     
     
 #     print(instance, "sjdfksdfjskd")

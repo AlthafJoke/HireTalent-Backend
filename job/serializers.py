@@ -11,7 +11,7 @@ class CandidatesAppliedSerializer(serializers.ModelSerializer):
     job = JobSerializer()
     class Meta:
         model = CandidatesApplied
-        fields = ('user', 'resume', 'appliedAt', 'job')     
+        fields = ('id','user', 'resume', 'appliedAt', 'job', 'is_Approved', 'status')     
 
     
     

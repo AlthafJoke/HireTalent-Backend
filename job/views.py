@@ -215,8 +215,8 @@ def getCandidatesApplied(request, pk):
     
     return Response(serialzer.data)
 
-# @permission_classes([IsAuthenticated])
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def approveResume(request, pk):
     if not CandidatesApplied.objects.filter(id=pk).exists():
         return Response({"error": "wrong id"}, status=status.HTTP_400_BAD_REQUEST)
@@ -224,28 +224,33 @@ def approveResume(request, pk):
     candidate = get_object_or_404(CandidatesApplied, id=pk)
     # candidate = CandidatesApplied.objects.filter(id=pk).exists()
     
-    
     candidate.is_Approved = True
+    candidate.status = "Approved"
+    candidate.is_Rejected = False
     
     candidate.save()
     
     return Response({"success": "resume is approved"}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def rejectResume(request, pk):
+    print("reject wroking")
     # candidate = get_object_or_404(CandidatesApplied, id=pk)
     if not CandidatesApplied.objects.filter(id=pk).exists():
-        return Response({"error": "wrong id"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Data doesnot exist"}, status=status.HTTP_400_BAD_REQUEST)
     
     candidate = get_object_or_404(CandidatesApplied, id=pk)
+    print(candidate, "this is candidate")
 
     
-    if candidate.is_Approved:
-        candidate.is_Approved = False
-        
-    
-        
+       
     candidate.is_Rejected = True
+    candidate.is_Approved = False
+    candidate.status = "Rejected"
+    
+    candidate.save()
+    
     
     
     return Response({"success": "Resume is rejected"})
