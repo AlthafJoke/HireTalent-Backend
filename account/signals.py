@@ -6,6 +6,7 @@ from .models import *
 from django.template.loader import get_template
 from django.template import Context
 from django.template.loader import render_to_string
+from decouple import config
 
 @receiver(post_save, sender=employerProfile)
 def send_email(sender, instance , **kwargs):
@@ -14,6 +15,8 @@ def send_email(sender, instance , **kwargs):
     print("signal for employer")
     print(user.user.username, "this is username")
     print(user.company)
+    client_url = config('CLIENT_URL')
+    # print(client_url)
     
     #mail for empl
            
@@ -22,7 +25,7 @@ def send_email(sender, instance , **kwargs):
         'username': user.user.username,
         'email':user.user,
         'company': user.company,
-        'url': 'https://hire-talent-client-al5tx647v-althafjoke.vercel.app/verify/' + str(user.uniqueCode),
+        'url': '{client_url}/verify/' + str(user.uniqueCode),
         
     })
     # message = get_template("account_verification_email.html").render(Context({
