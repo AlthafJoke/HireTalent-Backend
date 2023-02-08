@@ -25,7 +25,7 @@ def send_email(sender, instance , **kwargs):
         'username': user.user.username,
         'email':user.user,
         'company': user.company,
-        'url': 'http://localhost:3000/verify/' + str(user.uniqueCode),
+        'url': 'https://hire-talent-client-al5tx647v-althafjoke.vercel.app/verify/' + str(user.uniqueCode),
         
     })
     # message = get_template("account_verification_email.html").render(Context({
