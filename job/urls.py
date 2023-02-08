@@ -15,6 +15,7 @@ urlpatterns = [
     path('job/<str:pk>/candidates/' , views.getCandidatesApplied, name='get_candidates_applied'),
     path('candidate/<str:pk>/approve/', views.approveResume, name='approveResume'),
     path('candidate/<int:pk>/reject/', views.rejectResume, name='rejectResume'),
+    path('approved-candidates/', views.getApprovedCandidates, name="getApprovedCandidates"),
     
 ]
 

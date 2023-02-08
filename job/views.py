@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Job, CandidatesApplied
 from account.models import CustomUser
-from .serializers import JobSerializer, CandidatesAppliedSerializer
+from .serializers import JobSerializer, CandidatesAppliedSerializer,CandidatesAllSerializer
 from django.db.models import Avg, Min, Max, Count
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
@@ -254,6 +254,21 @@ def rejectResume(request, pk):
     
     
     return Response({"success": "Resume is rejected"})
+
+
+@api_view(['GET'])
+def getApprovedCandidates(request):
+    candidates = CandidatesApplied.objects.filter(is_Approved=True)
+    
+    serializer = CandidatesAllSerializer(candidates, many=True)
+    data = serializer.data
+    for i in data:
+        print(i)
+    
+    
+    return Response(serializer.data)
+        
+    
     
     
     

@@ -78,6 +78,8 @@ class CandidatesApplied(models.Model):
     is_Rejected = models.BooleanField(default=False)
     appliedAt = models.DateTimeField(auto_now_add=True)
     
+    
+    
 
     
     
