@@ -11,6 +11,7 @@ from rest_framework.pagination import PageNumberPagination
 from .filters import JobsFilter
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 @api_view(['GET'])
@@ -257,13 +258,15 @@ def rejectResume(request, pk):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getApprovedCandidates(request):
-    candidates = CandidatesApplied.objects.filter(is_Approved=True)
+    email = request.user
+  
+    candidates = CandidatesApplied.objects.filter(is_Approved=True, job__user=email)
+
     
     serializer = CandidatesAllSerializer(candidates, many=True)
-    data = serializer.data
-    for i in data:
-        print(i)
+
     
     
     return Response(serializer.data)
