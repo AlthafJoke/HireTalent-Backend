@@ -101,6 +101,24 @@ def register(request):
                 # employerprofile.is_recruiter = True
                 employerprofile.uniqueCode = get_random_string(length=25) + get_random_string(length=15)
                 employerprofile.save()
+                
+                
+                mail_subject = "New Recruiter Registered"
+                message = render_to_string('account_verification_email.html', {
+                    'username': user.user.username,
+                    'email':user.user,
+                    'company': user.company,
+                    'url': 'https://hire-talent-client-al5tx647v-althafjoke.vercel.app/verify/' + str(user.uniqueCode),
+                    
+                })
+                # message = get_template("account_verification_email.html").render(Context({
+                #     'user': user
+                # }))
+                # message = ' pls click this to verify http://localhost:3000/verify/' + str(user.uniqueCode)
+                to_email = 'althafav7@gmail.com'
+                send_mail = EmailMessage(mail_subject, message, to=[to_email])
+                send_mail.content_subtype = "html"
+                send_mail.send()
             
             
                 return Response({'success': 'You Account has been created please wait for admin approvals','username': user.username,}, status=status.HTTP_201_CREATED)
