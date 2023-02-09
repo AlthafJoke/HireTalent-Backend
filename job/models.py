@@ -6,10 +6,15 @@ from datetime import *
 from account.models import CustomUser
 
 
+
+
+
+
+
 # Create your models here.
 
 class JobType(models.TextChoices):
-    Permanent = 'Permanent'
+    Permenent = 'Permenent'
     Temporary = 'Temporary'
     Internship = 'Internship'
 
@@ -47,7 +52,7 @@ class Job(models.Model):
     description         = models.TextField(null=True)
     email               = models.EmailField(null=True)
     address             = models.CharField(max_length=200, null=True)
-    jobType             = models.CharField(max_length=10, choices=JobType.choices, default=JobType.Permanent)
+    jobType             = models.CharField(max_length=10, choices=JobType.choices, default=JobType.Permenent)
     education           = models.CharField(max_length=10, choices=Education.choices, default=Education.Bachelors)
     industry            = models.CharField(max_length=30, choices=Industry.choices, default=Industry.Business)
     experience          = models.CharField(max_length=20, choices=Experience.choices, default=Experience.NO_EXPIRIENCE)

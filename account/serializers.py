@@ -19,6 +19,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['is_recruiter'] = user.is_recruiter
         token['is_premium'] = user.is_premium
         token['username'] = user.username
+        token['is_superuser'] = user.is_superuser
         
        
         

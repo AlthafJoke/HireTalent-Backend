@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(null=True)),
                 ('email', models.EmailField(max_length=254, null=True)),
                 ('address', models.CharField(max_length=200, null=True)),
-                ('jobType', models.CharField(choices=[('Permanent', 'Permanent'), ('Temporary', 'Temporary'), ('Internship', 'Internship')], default='Permenent', max_length=10)),
+                ('jobType', models.CharField(choices=[('Permenent', 'Permenent'), ('Temporary', 'Temporary'), ('Internship', 'Internship')], default='Permenent', max_length=10)),
                 ('education', models.CharField(choices=[('Bachelors', 'Bachelors'), ('Masters', 'Masters'), ('Phd', 'Phd')], default='Bachelors', max_length=10)),
                 ('industry', models.CharField(choices=[('Business', 'Business'), ('IT', 'It'), ('Banking', 'Banking'), ('Education/Training', 'Education'), ('Telecommunication', 'Telecommunication'), ('Others', 'Others')], default='Business', max_length=30)),
                 ('experience', models.CharField(choices=[('No Experience', 'No Expirience'), ('1 Year', 'One Year'), ('2 Years', 'Two Year'), ('3 Years above', 'Three Year Plus')], default='No Experience', max_length=20)),
