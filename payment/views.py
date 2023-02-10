@@ -30,7 +30,6 @@ def createOrder(request):
 def verifySignature(request):
     res = request.data
     
-    
     # print(user.email)
 
     params_dict = {
@@ -50,7 +49,7 @@ def verifySignature(request):
         user = CustomUser.objects.filter(email=email).first()
         user.is_premium = True
         user.save()
-        print("user purchase premium success")
+        
         ####################################################
         payment = Payment.objects.create(
             user=user,
