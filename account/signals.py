@@ -17,7 +17,7 @@ def send_email(sender, instance , **kwargs):
            
     mail_subject = "New Recruiter Registered"
     message = render_to_string('account_verification_email.html', {
-        'username': user.user.username,
+        # 'username': user.user.username,
         'email':user.user,
         'company': user.company,
         'url': 'https://hire-talent-client-al5tx647v-althafjoke.vercel.app/verify/' + str(user.uniqueCode),
