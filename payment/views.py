@@ -11,7 +11,7 @@ from rest_framework import status
 
 @api_view(['POST'])
 def createOrder(request):
-    global client
+    # global client
     data = request.data
 
     amount = int(float(data['amount']))
@@ -29,6 +29,11 @@ def createOrder(request):
 @api_view(['POST'])
 def verifySignature(request):
     res = request.data
+    
+    key_id = config('RAZOR_KEY_ID')
+    key_secret = config('RAZOR_SECRET')
+    
+    client = razorpay.Client(auth=(key_id, key_secret))
     
     # print(user.email)
 
